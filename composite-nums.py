@@ -1,42 +1,73 @@
 from math import sqrt, ceil
 
-N = int(input("Please enter the number of highly composite numbers u want: "))
+def prime():
+    primenums = [2,3]
+    for i in range(4,1000000):
+        for j in primenums:
+            if i % j == 0:
+                break
+            elif j >= ceil(sqrt(i)):
+                primenums.append(i)
+                break
+    return primenums
 
-compNums = []
+def hcn():
 
-mostFactors = 0
+    N = int(input("Please enter the number of highly composite numbers u want: "))
 
-i = 1
-while len(compNums) < N:
+    with open("highly-composite-numbers.txt","w") as file:
+        file.write("These are the first " + str(N) + " Highly Composite Numbers\n")
 
-    factors = []
+    compNums = []
+    mostFactors = 0
+    i = 1
+    while len(compNums) < N:
 
-    if i % 6 != 0 and i > 6:
+        factors = []
+
+        if i % 6 != 0 and i > 6:
+            i += 1
+            continue
+
+        if i > 36:
+            for j in range(1,ceil(sqrt(i))):
+                if i % j == 0:
+                    factors.append(str(j))
+
+            factorLen = len(factors) * 2
+
+        else:
+            for j in range(1,i+1):
+                if i % j == 0:
+                    factors.append(str(j))
+
+            factorLen = len(factors)
+
+        if factorLen > mostFactors:
+            compNums.append(i)
+            mostFactors = factorLen
+
+            with open("highly-composite-numbers.txt","a") as file:
+                file.write("HCN: " + str(i) + " - ")
+                allfactors = factors
+                if i > 36:
+                    for factor in factors[::-1]:
+                        allfactors.append(str(round(i/int(factor))))
+                file.write("Factors: " + ",".join(allfactors) + " - ")
+                file.write("Prime Composition: " + primeComp(i) + "\n")
+
         i += 1
-        continue
 
-    if i > 36:
-        for j in range(1,ceil(sqrt(i))):
-            if i % j == 0:
-                factors.append(j)
+def primeComp(i):
 
-        factors = len(factors) * 2
+    primecomp = [str(1)]
+    while i != 1:
+        for y in primes:
+            if i % y == 0:
+                primecomp.append(str(y))
+                i /= y
+                break 
+    return ",".join(primecomp)
 
-    else:
-        for j in range(1,i+1):
-            if i % j == 0:
-                factors.append(j)
-
-        factors = len(factors)
-
-    if factors > mostFactors:
-        compNums.append(i)
-        mostFactors = factors
-
-        print(compNums, "we have", len(compNums), "so far")
-
-    i += 1
-
-with open("highly-composite-numbers.txt","w") as file:
-    for i in compNums:
-        file.write(str(i) + "\n")
+primes = prime()
+hcn()
