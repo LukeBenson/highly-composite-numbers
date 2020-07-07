@@ -5,7 +5,7 @@
 A **H**ighly **C**omposite **N**umber (**HCN**) is a **natural number** which has more **factors** than all the numbers before it. 
 For example:
 
-`1` has *one* factor, `1`, and is the first number - therefore it is a **HCN****.
+`1` has *one* factor, `1`, and is the first number - therefore it is a **HCN**.
 
 `2` has *two* factors, `1` and `2`, which is more than `1` - therefore is a **HCN**.
 
